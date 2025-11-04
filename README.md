@@ -72,21 +72,7 @@ The following actuator endpoints have been configured:
 - http://localhost:8080/actuator
 - http://localhost:8080/actuator/health
 
-#### 5. GitHub workflow
-The following workflows have been provided:
-
-* Build and test PR - `build-test-pr.yml`
-* Build and deploy after PR merged - `pr-merge-main.yml` 
-
-## Additional Information
-
-### Libraries Used
-- [Spring Boot Actuator](https://docs.spring.io/spring-boot/reference/actuator/index.html) - used to provide various endpoints to help monitor the application, such as view application health and information.
-- [Spring Boot Web](https://docs.spring.io/spring-boot/reference/web/index.html) - used to provide features for building the REST API implementation.
-- [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/jpa.html) - used to simplify database access and interaction, by providing an abstraction over persistence technologies, to help reduce boilerplate code.
-- [Springdoc OpenAPI](https://springdoc.org/) - used to generate OpenAPI documentation. It automatically generates Swagger UI, JSON documentation based on your Spring REST APIs.
-- [Lombok](https://projectlombok.org/) - used to help to reduce boilerplate Java code by automatically generating common
-  methods like getters, setters, constructors etc. at compile-time using annotations.
+otations.
 - [MapStruct](https://mapstruct.org/) - used for object mapping, specifically for converting between different Java object types, such as Data Transfer Objects (DTOs)
   and Entity objects. It generates mapping code at compile code.
 - [H2](https://www.h2database.com/html/main.html) - used to provide an example database and should not be used in production.
