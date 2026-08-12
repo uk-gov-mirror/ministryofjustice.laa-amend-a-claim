@@ -18,9 +18,15 @@
 
             <form method="post"
                   th:action="@{/submissions/{submissionId}/claims/{claimId}/amendments/requested-reason(submissionId=${submissionId}, claimId=${claimId})}"
-                  th:object="${requestedReasonForm}">
+                  th:object="${requestedReasonForm}"
+                  th:with="formErrors=${@ThymeleafUtils.orEmpty(requestedReasonFormErrors)}">
 
-                <div class="govuk-form-group">
+                <th:block th:replace="~{partials/error-summary :: error-summary(${formErrors})}"></th:block>
+
+                <div class="govuk-form-group"
+                     th:classappend="${@ThymeleafUtils.hasAmendmentFieldError(formErrors, 'requestedReason') ? ' govuk-form-group--error' : ''}">
+                    <span id="requestedReason"></span>
+                    <th:block th:replace="~{partials/amendments/field-error :: fieldError('requestedReason', ${formErrors})}"></th:block>
                     <fieldset class="govuk-fieldset">
                         <div class="govuk-radios govuk-radios--small"
                              data-module="govuk-radios" id="requested-reason-input-container">
