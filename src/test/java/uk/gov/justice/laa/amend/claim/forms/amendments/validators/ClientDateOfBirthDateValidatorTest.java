@@ -2,31 +2,38 @@ package uk.gov.justice.laa.amend.claim.forms.amendments.validators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import uk.gov.justice.laa.amend.claim.forms.amendments.AmendmentForm;
 import uk.gov.justice.laa.amend.claim.models.ClaimDetails;
 import uk.gov.justice.laa.amend.claim.resources.MockClaimsFunctions;
 import uk.gov.justice.laa.amend.claim.support.TestMessageSources;
+import uk.gov.justice.laa.amend.claim.utils.DateWrapperUtil;
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.CivilClaimDetailsViewField;
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.MediationClaimDetailsViewField;
 
+@ExtendWith(MockitoExtension.class)
 class ClientDateOfBirthDateValidatorTest {
 
   ClientDateOfBirthDateValidator validator;
 
+  @Mock DateWrapperUtil dateWrapperUtil;
+
   @BeforeEach
   void beforeEach() {
-    validator = new
-        ClientDateOfBirthDateValidator(TestMessageSources.real());
+    validator = new ClientDateOfBirthDateValidator(TestMessageSources.real(), dateWrapperUtil);
   }
 
   @Nested
@@ -94,16 +101,18 @@ class ClientDateOfBirthDateValidatorTest {
           .isEqualTo(AmendmentDateValidator.DATE_CANT_BE_BEFORE_CODE);
       assertThat(result.getFieldError("inputs['DATE_OF_BIRTH']").getArguments()[0])
           .isEqualTo("Date of birth");
+      assertThat(result.getFieldError("inputs['DATE_OF_BIRTH']").getArguments()[1])
+          .isEqualTo("1 January 1900");
     }
 
     @Test
     void shouldAddErrorsForDateInFuture() {
-      var tomorrow = LocalDate.now().plusDays(1);
+      when(dateWrapperUtil.isFutureDate(any())).thenReturn(true);
       Map<String, String> input =
           Map.of(
-              "DATE_OF_BIRTH-day", String.valueOf(tomorrow.getDayOfMonth()),
-              "DATE_OF_BIRTH-month", String.valueOf(tomorrow.getMonthValue()),
-              "DATE_OF_BIRTH-year", String.valueOf(tomorrow.getYear()));
+              "DATE_OF_BIRTH-day", "1",
+              "DATE_OF_BIRTH-month", "1",
+              "DATE_OF_BIRTH-year", "2020");
 
       Errors result = validateCivil(input);
 
@@ -121,12 +130,10 @@ class ClientDateOfBirthDateValidatorTest {
       form.setInputs(inputs);
 
       var errors = new BeanPropertyBindingResult(form, "amendmentForm");
-      validator.validate(
-          claimDetails, CivilClaimDetailsViewField.DATE_OF_BIRTH, form, errors);
+      validator.validate(claimDetails, CivilClaimDetailsViewField.DATE_OF_BIRTH, form, errors);
       return errors;
     }
   }
-
 
   @Nested
   class Mediation {
@@ -193,16 +200,18 @@ class ClientDateOfBirthDateValidatorTest {
           .isEqualTo(AmendmentDateValidator.DATE_CANT_BE_BEFORE_CODE);
       assertThat(result.getFieldError("inputs['DATE_OF_BIRTH']").getArguments()[0])
           .isEqualTo("Date of birth");
+      assertThat(result.getFieldError("inputs['DATE_OF_BIRTH']").getArguments()[1])
+          .isEqualTo("1 January 1900");
     }
 
     @Test
     void shouldAddErrorsForDateInFuture() {
-      var tomorrow = LocalDate.now().plusDays(1);
+      when(dateWrapperUtil.isFutureDate(any())).thenReturn(true);
       Map<String, String> input =
           Map.of(
-              "DATE_OF_BIRTH-day", String.valueOf(tomorrow.getDayOfMonth()),
-              "DATE_OF_BIRTH-month", String.valueOf(tomorrow.getMonthValue()),
-              "DATE_OF_BIRTH-year", String.valueOf(tomorrow.getYear()));
+              "DATE_OF_BIRTH-day", "1",
+              "DATE_OF_BIRTH-month", "1",
+              "DATE_OF_BIRTH-year", "2020");
 
       Errors result = validateMediationClient2(input);
 
@@ -220,12 +229,9 @@ class ClientDateOfBirthDateValidatorTest {
       form.setInputs(inputs);
 
       var errors = new BeanPropertyBindingResult(form, "amendmentForm");
-      validator.validate(
-          claimDetails, MediationClaimDetailsViewField.DATE_OF_BIRTH, form, errors);
+      validator.validate(claimDetails, MediationClaimDetailsViewField.DATE_OF_BIRTH, form, errors);
       return errors;
     }
-
-
   }
 
   @Nested
@@ -293,16 +299,18 @@ class ClientDateOfBirthDateValidatorTest {
           .isEqualTo(AmendmentDateValidator.DATE_CANT_BE_BEFORE_CODE);
       assertThat(result.getFieldError("inputs['CLIENT_2_DATE_OF_BIRTH']").getArguments()[0])
           .isEqualTo("Date of birth");
+      assertThat(result.getFieldError("inputs['CLIENT_2_DATE_OF_BIRTH']").getArguments()[1])
+          .isEqualTo("1 January 1900");
     }
 
     @Test
     void shouldAddErrorsForDateInFuture() {
-      var tomorrow = LocalDate.now().plusDays(1);
+      when(dateWrapperUtil.isFutureDate(any())).thenReturn(true);
       Map<String, String> input =
           Map.of(
-              "CLIENT_2_DATE_OF_BIRTH-day", String.valueOf(tomorrow.getDayOfMonth()),
-              "CLIENT_2_DATE_OF_BIRTH-month", String.valueOf(tomorrow.getMonthValue()),
-              "CLIENT_2_DATE_OF_BIRTH-year", String.valueOf(tomorrow.getYear()));
+              "CLIENT_2_DATE_OF_BIRTH-day", "1",
+              "CLIENT_2_DATE_OF_BIRTH-month", "1",
+              "CLIENT_2_DATE_OF_BIRTH-year", "2020");
 
       Errors result = validateMediation(input);
 
@@ -324,7 +332,5 @@ class ClientDateOfBirthDateValidatorTest {
           claimDetails, MediationClaimDetailsViewField.CLIENT_2_DATE_OF_BIRTH, form, errors);
       return errors;
     }
-
-
   }
 }
