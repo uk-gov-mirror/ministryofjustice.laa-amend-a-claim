@@ -40,6 +40,15 @@ class DisbursementVatAmountValidatorTest {
   }
 
   @Test
+  void shouldIgnoreIfDisbursementsVatAmountIsMalformed() {
+    Map<String, String> input = Map.of("DISBURSEMENTS_VAT", "abc");
+
+    Errors result = validate(input);
+
+    assertThat(result.hasFieldErrors()).isFalse();
+  }
+
+  @Test
   void shouldIgnoreIfAreaOfLawIsNull() {
     claimDetails.setAreaOfLaw(null);
     Map<String, String> input = Map.of("DISBURSEMENTS_VAT", "100");
