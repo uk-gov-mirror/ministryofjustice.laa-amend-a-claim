@@ -12,7 +12,6 @@ import uk.gov.justice.laa.amend.claim.forms.amendments.AmendmentForm;
 import uk.gov.justice.laa.amend.claim.models.ClaimDetails;
 import uk.gov.justice.laa.amend.claim.models.enums.AreaOfLaw;
 import uk.gov.justice.laa.amend.claim.resources.MockClaimsFunctions;
-import uk.gov.justice.laa.amend.claim.support.TestMessageSources;
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimDetailsViewField;
 
 class DisbursementVatAmountValidatorTest {
@@ -22,7 +21,7 @@ class DisbursementVatAmountValidatorTest {
 
   @BeforeEach
   void beforeEach() {
-    validator = new DisbursementVatAmountValidator(TestMessageSources.real());
+    validator = new DisbursementVatAmountValidator();
     claimDetails = MockClaimsFunctions.createMockCivilClaim();
   }
 

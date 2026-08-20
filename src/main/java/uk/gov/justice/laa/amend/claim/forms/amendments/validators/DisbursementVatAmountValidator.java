@@ -1,7 +1,6 @@
 package uk.gov.justice.laa.amend.claim.forms.amendments.validators;
 
 import java.math.BigDecimal;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import uk.gov.justice.laa.amend.claim.forms.amendments.AmendmentForm;
@@ -10,13 +9,10 @@ import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimDetailsViewField
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimViewField;
 
 @Component
-public class DisbursementVatAmountValidator extends AmendmentDateValidator {
+public class DisbursementVatAmountValidator
+    implements FieldSpecificAmendmentValidator {
 
   public static final String ERROR_CODE = "amendmentForm.dates.disbursementVatExceeded";
-
-  public DisbursementVatAmountValidator(MessageSource messageSource) {
-    super(messageSource);
-  }
 
   @Override
   public boolean appliesTo(ClaimViewField<?> field) {
