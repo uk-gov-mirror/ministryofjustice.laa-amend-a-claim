@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import uk.gov.justice.laa.amend.claim.forms.amendments.AmendmentForm;
 import uk.gov.justice.laa.amend.claim.models.ClaimDetails;
-import uk.gov.justice.laa.amend.claim.utils.DateWrapperUtil;
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimDetailsViewField;
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimViewField;
 import uk.gov.justice.laa.dstew.payments.claimsdata.model.FeeCalculationType;
@@ -15,12 +14,10 @@ import uk.gov.justice.laa.dstew.payments.claimsdata.model.FeeCalculationType;
 public class DisbursementClaimStartDateValidator extends AmendmentDateValidator {
 
   public static final int MAXIMUM_MONTHS_DIFFERENCE = 3;
-  private final DateWrapperUtil dateWrapperUtil;
+  public static final String DISBURSEMENT_DATE_TO_EARLY = "amendmentForm.dates.disbursementToEarly";
 
-  public DisbursementClaimStartDateValidator(MessageSource messageSource,
-      DateWrapperUtil dateWrapperUtil) {
+  public DisbursementClaimStartDateValidator(MessageSource messageSource) {
     super(messageSource);
-    this.dateWrapperUtil = dateWrapperUtil;
   }
 
   @Override
@@ -43,7 +40,7 @@ public class DisbursementClaimStartDateValidator extends AmendmentDateValidator 
     LocalDate submissionEndDate = getSubmissionPeriodCutoffDate(submissionPeriod);
     if (caseStartDate.plusMonths(MAXIMUM_MONTHS_DIFFERENCE).isAfter(submissionEndDate)) {
       addUniqueFieldError(
-          field, "amendmentForm.dates.disbursementDateTooLate",
+          field, DISBURSEMENT_DATE_TO_EARLY,
           new Object[] {MAXIMUM_MONTHS_DIFFERENCE,
               DATE_FORMATTER_D_MMM_YYYY.format(submissionEndDate)}, errors);
     }
