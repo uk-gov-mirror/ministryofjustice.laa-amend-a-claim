@@ -9,8 +9,7 @@ import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimDetailsViewField
 import uk.gov.justice.laa.amend.claim.viewmodels.viewfield.ClaimViewField;
 
 @Component
-public class DisbursementVatAmountValidator
-    implements FieldSpecificAmendmentValidator {
+public class DisbursementVatAmountValidator implements FieldSpecificAmendmentValidator {
 
   public static final String ERROR_CODE = "amendmentForm.dates.disbursementVatExceeded";
 
