@@ -1,6 +1,5 @@
 package uk.gov.justice.laa.amend.claim.forms.amendments.validators;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -72,8 +71,10 @@ class DisbursementClaimStartDateValidatorTest {
   }
 
   @ParameterizedTest
-  @EnumSource(value = FeeCalculationType.class, names = {
-      "DISB_ONLY"}, mode = EnumSource.Mode.EXCLUDE)
+  @EnumSource(
+      value = FeeCalculationType.class,
+      names = {"DISB_ONLY"},
+      mode = EnumSource.Mode.EXCLUDE)
   void shouldNotAddErrorsWhenFeeCalculationTypeNotDisbursement(
       FeeCalculationType feeCalculationType) {
     claimDetails.setFeeType(feeCalculationType);
@@ -90,22 +91,22 @@ class DisbursementClaimStartDateValidatorTest {
 
   @ParameterizedTest
   @CsvSource({
-      "2025-11-07, 2026-01", // caseStartDate + 3 months = 2026-02-07 < 2026-02-20
-      "2025-01-20, 2025-03", // caseStartDate + 3 months = 2025-04-20 = 2025-04-20
-      "2025-01-01, 2025-04", // caseStartDate + 3 months = 2025-04-01 < 2025-05-20
-      "2025-01-31, 2025-04",
-      "2025-01-01, 2025-05",
-      "2025-01-10, 2025-05",
-      "2025-01-31, 2025-05",
-      "2025-02-28, 2025-05",
-      "2024-11-30, 2025-02",
-      "2024-01-20, 2024-03", // caseStartDate + 3 months = 2024-04-20 = 2024-04-20 (leap year)
-      "2024-01-19, 2024-03", // caseStartDate + 3 months = 2024-04-19 < 2024-04-20 (leap year)
-      "2024-01-31, 2024-04",
-      "2024-01-30, 2024-04"
+    "2025-11-07, 2026-01", // caseStartDate + 3 months = 2026-02-07 < 2026-02-20
+    "2025-01-20, 2025-03", // caseStartDate + 3 months = 2025-04-20 = 2025-04-20
+    "2025-01-01, 2025-04", // caseStartDate + 3 months = 2025-04-01 < 2025-05-20
+    "2025-01-31, 2025-04",
+    "2025-01-01, 2025-05",
+    "2025-01-10, 2025-05",
+    "2025-01-31, 2025-05",
+    "2025-02-28, 2025-05",
+    "2024-11-30, 2025-02",
+    "2024-01-20, 2024-03", // caseStartDate + 3 months = 2024-04-20 = 2024-04-20 (leap year)
+    "2024-01-19, 2024-03", // caseStartDate + 3 months = 2024-04-19 < 2024-04-20 (leap year)
+    "2024-01-31, 2024-04",
+    "2024-01-30, 2024-04"
   })
-  void shouldPassValidationWhenCaseStartDateInRange(LocalDate caseStartDate,
-      YearMonth submissionPeriod) {
+  void shouldPassValidationWhenCaseStartDateInRange(
+      LocalDate caseStartDate, YearMonth submissionPeriod) {
     claimDetails.setSubmissionPeriod(submissionPeriod);
     Map<String, String> input =
         Map.of(
@@ -120,18 +121,18 @@ class DisbursementClaimStartDateValidatorTest {
 
   @ParameterizedTest
   @CsvSource({
-      "2025-01-10, 2025-02", // caseStartDate + 3 months = 2025-04-10 > 2025-03-20
-      "2025-01-21, 2025-03", // caseStartDate + 3 months = 2025-04-21 > 2025-04-20
-      "2025-01-31, 2025-03", // caseStartDate + 3 months = 2025-04-31 > 2025-04-20
-      "2025-02-21, 2025-04",
-      "2024-12-21, 2025-02",
-      "2024-01-31, 2024-03",
-      "2024-01-21, 2024-03", // caseStartDate + 3 months = 2024-04-21 > 2024-04-20 (leap year)
-      "2024-02-29, 2024-04",
-      "2024-02-21, 2024-04"
+    "2025-01-10, 2025-02", // caseStartDate + 3 months = 2025-04-10 > 2025-03-20
+    "2025-01-21, 2025-03", // caseStartDate + 3 months = 2025-04-21 > 2025-04-20
+    "2025-01-31, 2025-03", // caseStartDate + 3 months = 2025-04-31 > 2025-04-20
+    "2025-02-21, 2025-04",
+    "2024-12-21, 2025-02",
+    "2024-01-31, 2024-03",
+    "2024-01-21, 2024-03", // caseStartDate + 3 months = 2024-04-21 > 2024-04-20 (leap year)
+    "2024-02-29, 2024-04",
+    "2024-02-21, 2024-04"
   })
-  void shouldFailValidationWhenCaseStartDateLessThan3Months(LocalDate caseStartDate,
-      YearMonth submissionPeriod) {
+  void shouldFailValidationWhenCaseStartDateLessThan3Months(
+      LocalDate caseStartDate, YearMonth submissionPeriod) {
     claimDetails.setSubmissionPeriod(submissionPeriod);
     Map<String, String> input =
         Map.of(

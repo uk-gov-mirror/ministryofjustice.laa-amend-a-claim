@@ -32,18 +32,21 @@ public class DisbursementClaimStartDateValidator extends AmendmentDateValidator 
     var submissionPeriod = claim.getSubmissionPeriod();
     var feeType = claim.getFeeType();
 
-    if (caseStartDate == null || submissionPeriod == null || !FeeCalculationType.DISB_ONLY.equals(
-        feeType)) {
+    if (caseStartDate == null
+        || submissionPeriod == null
+        || !FeeCalculationType.DISB_ONLY.equals(feeType)) {
       return;
     }
 
     LocalDate submissionEndDate = getSubmissionPeriodCutoffDate(submissionPeriod);
     if (caseStartDate.plusMonths(MAXIMUM_MONTHS_DIFFERENCE).isAfter(submissionEndDate)) {
       addUniqueFieldError(
-          field, DISBURSEMENT_DATE_TO_EARLY,
-          new Object[] {MAXIMUM_MONTHS_DIFFERENCE,
-              DATE_FORMATTER_D_MMM_YYYY.format(submissionEndDate)}, errors);
+          field,
+          DISBURSEMENT_DATE_TO_EARLY,
+          new Object[] {
+            MAXIMUM_MONTHS_DIFFERENCE, DATE_FORMATTER_D_MMM_YYYY.format(submissionEndDate)
+          },
+          errors);
     }
-
   }
 }
