@@ -3,10 +3,14 @@ package uk.gov.justice.laa.payments.amend.viewmodels.viewfield;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import uk.gov.justice.laa.dstew.payments.claimsdata.model.ClaimPatch;
+import uk.gov.justice.laa.dstew.payments.claimsdata.model.ClaimPatch.Builder;
 import uk.gov.justice.laa.payments.amend.models.CivilClaimDetails;
 import uk.gov.justice.laa.payments.amend.models.Claim;
 import uk.gov.justice.laa.payments.amend.models.ClaimDetails;
@@ -16,6 +20,12 @@ import uk.gov.justice.laa.payments.amend.models.enums.Amendability;
 import uk.gov.justice.laa.payments.amend.models.enums.FieldType;
 
 public interface ClaimViewField<T extends Claim> {
+
+  Class<Object> NO_PATCH_TYPE = Object.class;
+  BiFunction<Builder, Object, Builder> NO_PATCHER = (builder, _) -> builder;
+  List<FieldOption> NO_OPTIONS = List.of();
+  String NO_CLAIMS_API_FIELD_NAME = null;
+  String NO_FEE_API_FIELD_NAME = null;
 
   List<String> ROW_LABEL_KEY_PREFIXES = List.of("claimField.");
 
@@ -28,7 +38,7 @@ public interface ClaimViewField<T extends Claim> {
   String getClaimsApiFieldName();
 
   default String getFeeApiFieldName() {
-    return null;
+    return NO_FEE_API_FIELD_NAME;
   }
 
   ClaimViewFieldPatcher<?> getPatcher();
@@ -57,6 +67,12 @@ public interface ClaimViewField<T extends Claim> {
 
   default List<FieldOption> getOptions() {
     return List.of();
+  }
+
+  default boolean isAmended(Set<String> amendedFields) {
+    return Stream.of(getClaimsApiFieldName(), getFeeApiFieldName())
+        .filter(Objects::nonNull)
+        .anyMatch(amendedFields::contains);
   }
 
   static <C extends ClaimDetails> LinkedHashMap<ClaimViewField<C>, Object> toFieldMap(

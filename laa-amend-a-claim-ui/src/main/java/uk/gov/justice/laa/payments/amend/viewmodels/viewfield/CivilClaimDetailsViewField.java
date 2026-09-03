@@ -379,6 +379,15 @@ public enum CivilClaimDetailsViewField implements ClaimViewField<CivilClaimDetai
       ClaimPatch.Builder::isSubstantiveHearing,
       "claimSummaryFee.isSubstantiveHearing",
       "fee.boltOnSubstantiveHearingFee"),
+  BOLT_ON_TOTAL_FEE(
+      FieldType.BIG_DECIMAL,
+      NO_PATCH_TYPE,
+      _ -> null,
+      NO_PATCHER,
+      NO_OPTIONS,
+      Amendability.NEVER,
+      NO_CLAIMS_API_FIELD_NAME,
+      "fee.boltOnTotalFeeAmount"),
   IS_LONDON_RATE(
       FieldType.BOOLEAN,
       Boolean.class,
