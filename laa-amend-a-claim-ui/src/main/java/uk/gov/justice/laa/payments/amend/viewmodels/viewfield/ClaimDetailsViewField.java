@@ -95,7 +95,7 @@ public enum ClaimDetailsViewField implements ClaimViewField<ClaimDetails> {
 
   // Common cost fields
   FIXED_FEE(
-      FieldType.BIG_DECIMAL,
+      FieldType.MONETARY,
       NO_PATCH_TYPE,
       ClaimDetails::getFixedFee,
       NO_PATCHER,
@@ -103,31 +103,31 @@ public enum ClaimDetailsViewField implements ClaimViewField<ClaimDetails> {
       Amendability.NEVER,
       NO_CLAIMS_API_FIELD_NAME,
       "fee.fixedFeeAmount"),
-  HOURLY_TOTAL_AMOUNT(FieldType.BIG_DECIMAL, claim -> null, "fee.hourlyTotalAmount"),
+  HOURLY_TOTAL_AMOUNT(FieldType.MONETARY, claim -> null, "fee.hourlyTotalAmount"),
   PROFIT_COST(
-      FieldType.BIG_DECIMAL,
+      FieldType.MONETARY,
       BigDecimal.class,
       ClaimDetails::getNetProfitCost,
       ClaimPatch.Builder::netProfitCostsAmount,
       "claimSummaryFee.netProfitCostsAmount",
       "fee.netProfitCostsAmount"),
   DISBURSEMENTS(
-      FieldType.BIG_DECIMAL,
+      FieldType.MONETARY,
       BigDecimal.class,
       ClaimDetails::getNetDisbursementAmount,
       ClaimPatch.Builder::netDisbursementAmount,
       "claimSummaryFee.netDisbursementAmount",
       "fee.disbursementAmount"),
   DISBURSEMENTS_VAT(
-      FieldType.BIG_DECIMAL,
+      FieldType.MONETARY,
       BigDecimal.class,
       ClaimDetails::getDisbursementVatAmount,
       ClaimPatch.Builder::disbursementsVatAmount,
       "claimSummaryFee.disbursementsVatAmount",
       "fee.disbursementVatAmount"),
   CALCULATED_VAT_AMOUNT(
-      FieldType.BIG_DECIMAL, ClaimDetails::getDisbursementVatAmount, "fee.calculatedVatAmount"),
-  VAT_RATE_APPLIED(FieldType.BIG_DECIMAL, _ -> null, "fee.vatRateApplied"),
+      FieldType.MONETARY, ClaimDetails::getDisbursementVatAmount, "fee.calculatedVatAmount"),
+  VAT_RATE_APPLIED(FieldType.PERCENTAGE, _ -> null, "fee.vatRateApplied"),
   VAT(
       FieldType.BOOLEAN,
       Boolean.class,

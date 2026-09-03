@@ -384,6 +384,7 @@ class ClaimHistoryAmendmentsServiceTest {
             "fee.boltOnHomeOfficeInterviewCount",
             "fee.feeCodeDescription",
             "fee.feeCode",
+            "fee.schemeId",
             "fee.vatIndicator",
             "fee.requestedNetProfitCostsAmount",
             "fee.requestedNetDisbursementAmount")
@@ -462,6 +463,7 @@ class ClaimHistoryAmendmentsServiceTest {
           "boltOnHomeOfficeInterviewCount",
           "feeCodeDescription",
           "feeCode",
+          "schemeId",
           "vatIndicator",
           "requestedNetProfitCostsAmount",
           "requestedNetDisbursementAmount");
@@ -512,8 +514,12 @@ class ClaimHistoryAmendmentsServiceTest {
         var raw = isAfter ? "8" : "7";
         yield new SampleValue(raw, Integer.parseInt(raw));
       }
-      case BIG_DECIMAL -> {
+      case MONETARY -> {
         var raw = isAfter ? "201.75" : "100.50";
+        yield new SampleValue(raw, new BigDecimal(raw));
+      }
+      case PERCENTAGE -> {
+        var raw = isAfter ? "20.00" : "12.34";
         yield new SampleValue(raw, new BigDecimal(raw));
       }
       case DATE -> {

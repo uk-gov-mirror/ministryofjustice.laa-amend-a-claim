@@ -60,6 +60,7 @@ public class ClaimHistoryAmendmentsService {
           "fee.boltOnHomeOfficeInterviewCount",
           "fee.feeCodeDescription",
           "fee.feeCode",
+          "fee.schemeId",
           "fee.vatIndicator",
           "fee.requestedNetProfitCostsAmount",
           "fee.requestedNetDisbursementAmount",
@@ -378,7 +379,7 @@ public class ClaimHistoryAmendmentsService {
         case BOOLEAN -> raw instanceof Boolean b ? b : Boolean.parseBoolean(String.valueOf(raw));
         case NUMBER ->
             raw instanceof Number n ? n.intValue() : Integer.parseInt(String.valueOf(raw));
-        case BIG_DECIMAL -> new BigDecimal(String.valueOf(raw));
+        case MONETARY, PERCENTAGE -> new BigDecimal(String.valueOf(raw));
         case DATE -> LocalDate.parse(String.valueOf(raw));
         case ENUM -> resolveEnumValue(raw, field.getOptions());
       };
